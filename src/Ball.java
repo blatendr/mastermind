@@ -15,11 +15,16 @@ public class Ball {
 		return currentBalls;
 	}
 	
+	/**
+	 * This is going to set the balls as per user selection
+	 * @param balls the combination of balls the user wants to give
+	 */
 	public void setBalls(String balls){
 		currentBalls = balls;
 	}
 	
 	public String getHint(Ball balls){
+		// give a random position out
 		return "Hint will be determined and given here";
 	}
 	

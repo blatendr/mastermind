@@ -21,6 +21,7 @@ public class StartPlaying {
 		} 
 		else if (mode == Mode.Computer){
 			String ballCombination = getBallsFromUser();
+			
 			ball = ballCombination;
 		}
 		scanner.close();
