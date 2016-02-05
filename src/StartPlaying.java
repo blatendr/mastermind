@@ -18,6 +18,9 @@ public class StartPlaying {
 		mode = getGameMode();
 		if (mode == Mode.Player){
 			ball = new Ball().getPegs();
+			
+			// a loop here to get the values from the user and to keep checking it until they have attempts left
+			
 		} 
 		else if (mode == Mode.Computer){
 			String ballCombination = getBallsFromUser();
