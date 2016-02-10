@@ -32,7 +32,7 @@ public class Ball {
 		return "The solution was "+ balls.getPegs();
 	}
 	
-	public String checkAnswer(Ball answer, Ball userResponse){
+	public static String checkAnswer(Ball answer, Ball userResponse){
 		return "right or not";
 	}
 	
