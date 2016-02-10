@@ -1,3 +1,11 @@
+//put in ball class
+public char checkCharAt(int i)
+   {
+   return currentBalls.charAt(i);
+   
+   }
+
+
 //put in player class
 public String checkAnswer(Ball answer, Ball userResponse){
 		int bothCorrect = 0;
