@@ -37,6 +37,9 @@ public class StartPlaying {
       boolean incorrectColor=false;
 		System.out.print("Please provide combination of 4 colors, valid choices are: "+ Arrays.toString(Ball.colors));
 		String color = scanner.nextLine();
+      boolean inputLengthValid = false;
+      boolean validColorsUsed = false;
+      
       while (color.length()!=4){
          System.out.println("Invalid input. Please choose exactly 4 colors.");
          color=changeString(color);
