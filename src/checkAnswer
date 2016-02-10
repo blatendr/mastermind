@@ -1,0 +1,27 @@
+//put in player class
+public String checkAnswer(Ball answer, Ball userResponse){
+		int bothCorrect = 0;
+      int correctColor = 0;
+      for(int i =0; i <4;i++)
+      {
+         boolean value = false;
+         if (answer.checkCharAt( i) == userResponse.checkCharAt(i)) //if statement that counts black pegs
+            {
+            bothCorrect++;
+            value = true;
+            }
+       
+         for (int k =0;k<4;k++)
+         {
+            //System.out.println(compArray[k]+"         "+playerArray[i]); #use to see what is being compaired for red pegs
+
+            if (answer.checkCharAt( k) == userResponse.checkCharAt(i) && value != true)
+            {
+                        correctColor++; 
+            }
+         }
+
+      }
+      
+      return "black: "+bothCorrect+"red: "+correctColor;
+      }
