@@ -20,12 +20,12 @@ public char checkCharAt(int i)
           {
           for (int k =0;k<answString.length();k++)
          {
-            System.out.println(answString.length()); //#use to see what is being compaired for red pegs
+            
 
             if (answString.charAt( k) == respString.charAt(j))
             {
                         correctColor++;
-                        System.out.println(answString.charAt( k));
+                        
                         answString.deleteCharAt(k); 
             
             }
