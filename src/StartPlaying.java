@@ -34,40 +34,62 @@ public class StartPlaying {
 	// if on computer mode, player will choose the colors, get the colors from the user
 	// TODO error checking and validation part remains
 	private static String getBallsFromUser() {
-		System.out.print("Please provide combination of colors, valid choices are: "+ Arrays.toString(Ball.colors));
+      boolean incorrectColor=false;
+		System.out.print("Please provide combination of 4 colors, valid choices are: "+ Arrays.toString(Ball.colors));
 		String color = scanner.nextLine();
-		return color;
-	
+      while (color.length()!=4){
+         System.out.println("Invalid input. Please choose exactly 4 colors.");
+         color=changeString(color);
+      }
+      for (int i = 0 ; i<4 ; i++) {
+         while(color.charAt(i)!='b' && color.charAt(i)!='g' && color.charAt(i)!='r' && color.charAt(i)!='y' && color.charAt(i)!='p' && color.charAt(i)!='o'){
+            System.out.println("Invalid input. Please choose 4 colors out of: " + Arrays.toString(Ball.colors));
+            color=changeString(color);
+         }
+      }
+     return color;
 	}
 
+   private static String changeString(String s){
+      return scanner.nextLine();
+   }
+   
 	// get the difficulty level user desires for
 	// TODO error checking and validation part remains
 	public static int getDifficultyLevel() {
 		System.out.print("Choose difficulty level (E)asy, (M)edium or (D)ifficult: ");
 		String difficultyLevel = scanner.nextLine();
-		if (difficultyLevel.equalsIgnoreCase("e") || difficultyLevel.equalsIgnoreCase("easy")) {
-			return NO_OF_MOVES_EASY;
-		} else if (difficultyLevel.equalsIgnoreCase("m") || difficultyLevel.equalsIgnoreCase("medium")) {
-			return NO_OF_MOVES_MEDIUM;
-		} else if (difficultyLevel.equalsIgnoreCase("d") || difficultyLevel.equalsIgnoreCase("difficult")) {
-			return NO_OF_MOVES_DIFFICULT;
-		} else {
-			return 0;
-		}
+      while(difficultyLevel!="e" && difficultyLevel!="m" && difficultyLevel!="d"){
+   		if (difficultyLevel.equalsIgnoreCase("e") || difficultyLevel.equalsIgnoreCase("easy")) {
+   			return NO_OF_MOVES_EASY;
+   		} else if (difficultyLevel.equalsIgnoreCase("m") || difficultyLevel.equalsIgnoreCase("medium")) {
+   			return NO_OF_MOVES_MEDIUM;
+   		} else if (difficultyLevel.equalsIgnoreCase("d") || difficultyLevel.equalsIgnoreCase("difficult")) {
+   			return NO_OF_MOVES_DIFFICULT;
+   		} else {
+   			System.out.print("Invalid input. Please choose (E)asy, (M)edium or (D)ifficult: ");
+            difficultyLevel=changeString(difficultyLevel);
+   		}
+      }
+      return 0;
 	}
 	
 	// get the player mode user desires for
 	// TODO error checking and validation part remains
 	public static Mode getGameMode() {
-		System.out.println("Play as a (P)layer or (C)omputer?: ");
+		System.out.print("Play as a (P)layer or (C)omputer?: ");
 		String mode = scanner.nextLine();
-		if (mode.equalsIgnoreCase("p") || mode.equalsIgnoreCase("Player")) {
-			return Mode.Player;
-		} else if (mode.equalsIgnoreCase("c") || mode.equalsIgnoreCase("Computer")) {
-			return Mode.Computer;
-		} else {
-			return Mode.Undefined;
-		}
+      while(mode!="p" || mode!="Player" || mode!="c" || mode!="Computer"){
+   		if (mode.equalsIgnoreCase("p") || mode.equalsIgnoreCase("Player")) {
+   			return Mode.Player;
+   		} else if (mode.equalsIgnoreCase("c") || mode.equalsIgnoreCase("Computer")) {
+   			return Mode.Computer;
+   		} else {
+            System.out.print("Invalid input. Please select (P)layer or (C)omputer: ");
+   			mode=changeString(mode);
+   		}
+      }
+      return Mode.Undefined;
 	}
 
 	public enum Mode {
