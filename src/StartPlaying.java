@@ -22,13 +22,15 @@ public class StartPlaying {
 			ball = new Ball().getRandomPegs(); // computer generated that
 												// pattern
 			System.out.println(ball);
-			while (attemptsLeft != 0 || !gotAnswerRight) {
+			while (attemptsLeft != 0 || gotAnswerRight) {
 				attemptsLeft--;
 				String userAnswer = getInputFromUser();
 				String feedback = TestBall.checkAnswer(ball, userAnswer);
 				System.out.println(feedback);
-				if (feedback == "4b0w") {
+				if (feedback.equalsIgnoreCase("4b0w")) {
 					gotAnswerRight = true;
+					System.out.println("You won");
+					break;
 				}
 
 			}

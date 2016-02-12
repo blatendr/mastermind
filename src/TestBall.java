@@ -24,8 +24,8 @@ public class TestBall {
 		StringBuilder sbAnswerPhase1 = new StringBuilder();
 		StringBuilder sbUserAnswerPhase1 = new StringBuilder();
 		
-		System.out.println(sbAnswer);
-		System.out.println(sbUserAns);
+		//System.out.println(sbAnswer);
+		//System.out.println(sbUserAns);
 		
 		// if both of them contain the same balls, replace both of them and add one to the number of black counts
 		for (int i = 0; i < sbUserAns.length(); i++){
@@ -38,8 +38,8 @@ public class TestBall {
 			}
 		}
 		
-		System.out.println("Real answer after removing the blacks" +sbAnswerPhase1);
-		System.out.println("User answer after removing the blacks " +sbUserAnswerPhase1);
+		//System.out.println("Real answer after removing the blacks" +sbAnswerPhase1);
+		//System.out.println("User answer after removing the blacks " +sbUserAnswerPhase1);
 		
 		
 		
