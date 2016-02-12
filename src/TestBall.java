@@ -3,10 +3,10 @@ public class TestBall {
 	
 	public static void main(String[] main){
 		Ball bAnswerBall = new Ball();
-		bAnswerBall.setBalls("1034");
+		bAnswerBall.setBalls("pssp");
 		
 		Ball userBall = new Ball();
-		userBall.setBalls("1204");
+		userBall.setBalls("sasp");
 		
 		String response = checkAnswer(bAnswerBall.getPegs(), userBall.getPegs());
 		System.out.println(response);
