@@ -5,13 +5,17 @@ public class Ball {
 	
 	public static String[] colors = {"B", "G", "R", "Y", "P", "O" };
 	
-	public String getPegs(){
+	public String getRandomPegs(){
 		String tempPattern = "";
 		for (int i = 0; i < 4; i++){
 			int rnd = new Random().nextInt(colors.length);
 			tempPattern += colors[rnd];
 		}
 		currentBalls = tempPattern;
+		return currentBalls;
+	}
+	
+	public String getPegs(){
 		return currentBalls;
 	}
 	
