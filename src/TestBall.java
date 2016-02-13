@@ -3,13 +3,17 @@ public class TestBall {
 	
 	public static void main(String[] main){
 		Ball bAnswerBall = new Ball();
-		bAnswerBall.setBalls("pssp");
+		bAnswerBall.setBalls("aaaa");
 		
 		Ball userBall = new Ball();
-		userBall.setBalls("sasp");
+		userBall.setBalls("aaaa");
 		
 		String response = checkAnswer(bAnswerBall.getPegs(), userBall.getPegs());
 		System.out.println(response);
+		
+		// calling brad's function
+		String responseBrad = Ball.checkAnswer(bAnswerBall, userBall);
+		System.out.println(responseBrad);
 		
 	}
 	
@@ -64,5 +68,7 @@ public class TestBall {
 		return numberOfBlacks+"b"+numberOfWhites+"w";
 		
 	}
+	
+	
 
 }
