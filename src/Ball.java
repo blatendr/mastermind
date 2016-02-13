@@ -3,7 +3,8 @@ import java.util.Random;
 public class Ball {
 	private String currentBalls = "";
 	
-	public static String[] colors = {"B", "G", "R", "Y", "P", "O" };
+	//public static String[] colors = {"B", "G", "R", "Y", "P", "O" };
+	public static String[] colors = {"1","2","3","4","5","6"};
 	
 	public String getRandomPegs(){
 		String tempPattern = "";

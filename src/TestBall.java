@@ -48,7 +48,7 @@ public class TestBall {
 			char pegUnderConsideration = sbUserAnswerPhase1.charAt(i);
 			for (int j =0; j < sbAnswerPhase1.length(); j++){
 				char comparisionPeg = sbAnswerPhase1.charAt(j);
-				System.out.println("Comparing "+pegUnderConsideration+" with "+ comparisionPeg+" Answer is : "+sbAnswerPhase1+" User gave: "+sbUserAnswerPhase1);
+				// System.out.println("Comparing "+pegUnderConsideration+" with "+ comparisionPeg+" Answer is : "+sbAnswerPhase1+" User gave: "+sbUserAnswerPhase1);
 				if (pegUnderConsideration == comparisionPeg){ // meaning it was found
 					numberOfWhites++;
 					sbAnswerPhase1.setCharAt(j, 'A');
@@ -58,8 +58,8 @@ public class TestBall {
 			
 		}
 		
-		System.out.println(sbAnswer);
-		System.out.println(sbUserAns);
+		//System.out.println(sbAnswer);
+		//System.out.println(sbUserAns);
 		
 		return numberOfBlacks+"b"+numberOfWhites+"w";
 		

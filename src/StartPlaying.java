@@ -8,11 +8,14 @@ public class StartPlaying {
 	private static String ball;
 	private static Scanner scanner = new Scanner(System.in);
 
-	private static int NO_OF_MOVES_EASY = 20;
-	private static int NO_OF_MOVES_MEDIUM = 15;
-	private static int NO_OF_MOVES_DIFFICULT = 10;
+	private static int NO_OF_MOVES_EASY = 15;
+	private static int NO_OF_MOVES_MEDIUM = 10;
+	private static int NO_OF_MOVES_DIFFICULT = 5;
 
 	private static boolean gotAnswerRight = false;
+	private static int attemptsMadeSoFar = 0;
+	
+	
 
 	public static void main(String[] args) {
 		// step 1. ask the player if he wants to play easy, medium or hard level
@@ -21,21 +24,32 @@ public class StartPlaying {
 		if (mode == Mode.Player) {
 			ball = new Ball().getRandomPegs(); // computer generated that
 												// pattern
-			System.out.println(ball);
+			// display the ball to the user
+			//System.out.println(ball);
+			System.out.println("The computer has thought of a pattern. Lets proceed");
+			
 			while (attemptsLeft != 0 || gotAnswerRight) {
+				
 				attemptsLeft--;
 				String userAnswer = getInputFromUser();
 				String feedback = TestBall.checkAnswer(ball, userAnswer);
-				System.out.println(feedback);
+				attemptsMadeSoFar ++;
+				System.out.println(feedback+" Attempts Left: "+attemptsLeft);
 				if (feedback.equalsIgnoreCase("4b0w")) {
 					gotAnswerRight = true;
-					System.out.println("You won");
+					System.out.println("You won in "+attemptsMadeSoFar+" attempts.");
 					break;
 				}
 
 			}
-			// a loop here to get the values from the user and to keep checking
-			// it until they have attempts left
+			if (attemptsLeft==0 || gotAnswerRight){
+				System.out.println("GAME OVER. Pattern was "+ball+" Play again?");
+				// a loop here to get the values from the user and to keep checking
+				// it until they have attempts left
+				
+			}
+			
+			
 
 		} else if (mode == Mode.Computer) {
 			String ballCombination = getInputFromUser();
@@ -43,7 +57,7 @@ public class StartPlaying {
 			ball = ballCombination;
 		}
 		scanner.close();
-		System.out.println(ball + attemptsLeft);
+		
 	}
 
 	// if on computer mode, player will choose the colors, get the colors from
