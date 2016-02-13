@@ -136,7 +136,7 @@ public class StartPlaying {
 	}
 
 	// REPLACE WITH LUKE's VALIDATED CODE
-	private static String getInputFromUser() {
+	protected static String getInputFromUser() {
 		System.out.print("Enter your guess  ");
 		String color = scanner.nextLine();
 
