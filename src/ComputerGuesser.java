@@ -6,12 +6,11 @@ public class ComputerGuesser {
 	private static String THIRD_GUESS = "3333";
 	private static String FOURTH_GUESS = "4444";
 	private static String FIFTH_GUESS = "5555";
-	public static final int NUMBER_OF_ATTEMPTS_ALLOWED = 15;
+	public static int NUMBER_OF_ATTEMPTS_ALLOWED = 15;
 
 	private static ArrayList<String> ballCombinations;
 	private static boolean foundAnswer = false;
 	private static int numberOfAttempts = 0;
-	
 
 	public static void generateAllCombinations() {
 		ballCombinations = new ArrayList<>();
@@ -30,74 +29,72 @@ public class ComputerGuesser {
 	public static ArrayList<String> getCombinations() {
 		return ballCombinations;
 	}
-	
+
 	public static int getNumberOfAttempts() {
 		return numberOfAttempts;
 	}
-	
-	public static boolean getFoundAnswer(){
+
+	public static boolean getFoundAnswer() {
 		return foundAnswer;
 	}
-
+	
+	public static void setNumberOfAttemptsAllowed(int allowed){
+		NUMBER_OF_ATTEMPTS_ALLOWED = allowed;
+	}
 
 	protected static void firstPruneSearchSpace(String answerBall) {
 		int numberOfPegsFound = 0;
 
 		if (numberOfPegsFound != 4) {
-			String result1 = TestBall.checkAnswer(answerBall, FIRST_GUESS);
-			System.out.println(result1);
-			int numberOf1s = Integer.parseInt(result1.substring(0, 1));
+			String result1 = PegsControler.checkAnswer(answerBall, FIRST_GUESS);
 			numberOfAttempts++;
+			Ball.printToConsole(FIRST_GUESS, result1, NUMBER_OF_ATTEMPTS_ALLOWED- numberOfAttempts);
+			int numberOf1s = Integer.parseInt(result1.substring(0, 1));
 			removeChoicesThatDoNotHaveInAllPlaces(numberOf1s, "1");
 			numberOfPegsFound += numberOf1s;
 		}
 
 		if (numberOfPegsFound != 4) {
-			String result2 = TestBall.checkAnswer(answerBall, SECOND_GUESS);
-			System.out.println(result2);
-			int numberOf2s = Integer.parseInt(result2.substring(0, 1));
+			String result2 = PegsControler.checkAnswer(answerBall, SECOND_GUESS);
 			numberOfAttempts++;
+			Ball.printToConsole(SECOND_GUESS, result2, NUMBER_OF_ATTEMPTS_ALLOWED- numberOfAttempts);
+			int numberOf2s = Integer.parseInt(result2.substring(0, 1));
+
 			removeChoicesThatDoNotHaveInAllPlaces(numberOf2s, "2");
 			numberOfPegsFound += numberOf2s;
 		}
 
 		if (numberOfPegsFound != 4) {
-			String result3 = TestBall.checkAnswer(answerBall, THIRD_GUESS);
-			System.out.println(result3);
-			int numberOf3s = Integer.parseInt(result3.substring(0, 1));
+			String result3 = PegsControler.checkAnswer(answerBall, THIRD_GUESS);
 			numberOfAttempts++;
+			Ball.printToConsole(THIRD_GUESS, result3, NUMBER_OF_ATTEMPTS_ALLOWED- numberOfAttempts);
+			int numberOf3s = Integer.parseInt(result3.substring(0, 1));
 			removeChoicesThatDoNotHaveInAllPlaces(numberOf3s, "3");
 			numberOfPegsFound += numberOf3s;
 		}
 
 		if (numberOfPegsFound != 4) {
-			String result4 = TestBall.checkAnswer(answerBall, FOURTH_GUESS);
-			System.out.println(result4);
-			int numberOf4s = Integer.parseInt(result4.substring(0, 1));
+			String result4 = PegsControler.checkAnswer(answerBall, FOURTH_GUESS);
 			numberOfAttempts++;
+			Ball.printToConsole(FOURTH_GUESS, result4, NUMBER_OF_ATTEMPTS_ALLOWED- numberOfAttempts);
+			int numberOf4s = Integer.parseInt(result4.substring(0, 1));
 			removeChoicesThatDoNotHaveInAllPlaces(numberOf4s, "4");
-			displayChoices();
-			numberOfChoicesLeft();
 			numberOfPegsFound += numberOf4s;
 		}
 
 		if (numberOfPegsFound != 4) {
-			String result5 = TestBall.checkAnswer(answerBall, FIFTH_GUESS);
-			System.out.println(result5);
-			int numberOf5s = Integer.parseInt(result5.substring(0, 1));
+			String result5 = PegsControler.checkAnswer(answerBall, FIFTH_GUESS);
 			numberOfAttempts++;
+			Ball.printToConsole(FIFTH_GUESS, result5, NUMBER_OF_ATTEMPTS_ALLOWED- numberOfAttempts);
+			int numberOf5s = Integer.parseInt(result5.substring(0, 1));
 			removeChoicesThatDoNotHaveInAllPlaces(numberOf5s, "5");
-			displayChoices();
-			numberOfChoicesLeft();
 			numberOfPegsFound += numberOf5s;
 		}
 
 		if (numberOfPegsFound != 4) {
 			int numberOf6s = 4 - numberOfPegsFound;
 			removeChoicesThatDoNotHaveInAllPlaces(numberOf6s, "6");
-			displayChoices();
-			numberOfChoicesLeft();
-			
+
 		}
 
 	}
@@ -133,5 +130,7 @@ public class ComputerGuesser {
 	public static void numberOfChoicesLeft() {
 		System.out.println("\nChoices Left " + ballCombinations.size());
 	}
+
+
 
 }

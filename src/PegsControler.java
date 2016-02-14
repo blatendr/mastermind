@@ -1,5 +1,5 @@
 
-public class TestBall {
+public class PegsControler {
 	
 	public static void main(String[] main){
 		Ball bAnswerBall = new Ball();

@@ -2,6 +2,10 @@ import java.util.Random;
 
 public class Ball {
 	private String currentBalls = "";
+	private static final String BLACK_DOT = "\u2022";
+	private static final String WHITE_DOT = "\u25E6";
+	
+			
 
 	// public static String[] colors = {"B", "G", "R", "Y", "P", "O" };
 	public static String[] colors = { "1", "2", "3", "4", "5", "6" };
@@ -38,6 +42,29 @@ public class Ball {
 	public String giveUp(Ball balls) {
 		return "The solution was " + balls.getPegs();
 	}
+	
+	public static void printToConsole(String input, String result, int attemptsLeft) {
+		System.out.println(input + "\t" + displayResultsToUser(result) + "\tAttempts Left: " + attemptsLeft);
+	}
+	
+	public static String displayResultsToUser(String result){
+		int numberOfBlacks = Integer.parseInt(result.substring(0, 1));
+		int numberOfWhites = Integer.parseInt(result.substring(2,3));
+		String display;
+		StringBuffer buffer = new StringBuffer();
+		for (int i = 0; i < numberOfBlacks; i++) {
+		    buffer.append(BLACK_DOT);
+		}
+		display = buffer.toString();
+	    buffer = new StringBuffer();
+		for (int i = 0; i < numberOfWhites; i++) {
+		    buffer.append(WHITE_DOT);
+		}
+		display+=buffer.toString();
+		return display;
+				
+		
+	}
 
 	/*
 	 * Brad's codes to the south of this comment
@@ -53,7 +80,6 @@ public class Ball {
 	}
 
 	public static String checkAnswer(Ball answer, Ball userResponse) {
-		Ball oldAnswer = answer;
 		int bothCorrect = 0;
 		int correctColor = 0;
 		StringBuilder answString = new StringBuilder(answer.getString());
@@ -79,5 +105,7 @@ public class Ball {
 
 		return "black: " + bothCorrect + " red: " + correctColor;
 	}
+	
+
 
 }

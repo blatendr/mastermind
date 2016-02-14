@@ -16,77 +16,81 @@ public class StartPlaying {
 	private static boolean gotAnswerRight = false;
 	private static int attemptsMadeSoFar = 0;
 	private static boolean playAgain = false;
-	
-	
+
+	private static final String ENTER_GUESS_MESSAGE = "Enter your guess: ";
+	private static final String ENTER_CODE_MESSAGE = "Enter your code: ";
 
 	public static void main(String[] args) {
-		
-		do{
-		// step 1. ask the player if he wants to play easy, medium or hard level
-		attemptsLeft = getDifficultyLevel();
-		mode = getGameMode();
-		if (mode == Mode.Player) {
-			ball = new Ball().getRandomPegs(); // computer generated that
-												// pattern
-			// display the ball to the user
-			//System.out.println(ball);
-			System.out.println("The computer has thought of a pattern. Lets proceed");
-			
-			while (attemptsLeft != 0 || gotAnswerRight) {
-				
-				attemptsLeft--;
-				String userAnswer = getInputFromUser();
-				String feedback = TestBall.checkAnswer(ball, userAnswer);
-				attemptsMadeSoFar ++;
-				System.out.println(feedback+" Attempts Left: "+attemptsLeft);
-				if (feedback.equalsIgnoreCase("4b0w")) {
-					gotAnswerRight = true;
-					System.out.println("You won in "+attemptsMadeSoFar+" attempts.");
-					break;
+
+		do {
+			attemptsLeft = getDifficultyLevel();
+			mode = getGameMode();
+			if (mode == Mode.Player) {
+				ball = new Ball().getRandomPegs();
+				System.out.println("The computer has thought of a pattern. Lets proceed");
+
+				while (attemptsLeft != 0 || gotAnswerRight) {
+
+					attemptsLeft--;
+					String userAnswer = getInputFromUser(ENTER_GUESS_MESSAGE);
+					String feedback = PegsControler.checkAnswer(ball, userAnswer);
+					attemptsMadeSoFar++;
+					Ball.printToConsole(userAnswer, feedback, attemptsLeft);
+					if (feedback.equalsIgnoreCase("4b0w")) {
+						gotAnswerRight = true;
+						System.out.println("You won in " + attemptsMadeSoFar + " attempts.");
+						break;
+					}
+
+				}
+
+				if (attemptsLeft == 0 || !gotAnswerRight) {
+					System.out.println("You Lost. Pattern was " + ball + " Play again?");
+				}
+
+			} else if (mode == Mode.Computer) {
+				ComputerGuesser.generateAllCombinations();
+				System.out.println("Human, please make a code for the computer to solve");
+				String answerBall = StartPlaying.getInputFromUser(ENTER_CODE_MESSAGE);
+				ComputerGuesser.firstPruneSearchSpace(answerBall);
+				ComputerGuesser.setNumberOfAttemptsAllowed(attemptsLeft);
+
+				ArrayList<String> ballCombinations = ComputerGuesser.getCombinations();
+				int numberOfAttempts = ComputerGuesser.getNumberOfAttempts();
+				boolean foundAnswer = ComputerGuesser.getFoundAnswer();
+
+				attemptsLeft = attemptsLeft - numberOfAttempts;
+
+				while (ballCombinations.size() != 0 || foundAnswer) {
+					if (attemptsLeft <= 0) {
+						break;
+					}
+					String randomResponse = ballCombinations.get(0);
+					attemptsLeft--;
+					String result = PegsControler.checkAnswer(answerBall, randomResponse);
+					Ball.printToConsole(randomResponse, result, attemptsLeft);
+
+					numberOfAttempts++;
+					if (Integer.parseInt(result.substring(0, 1)) == 4) {
+						foundAnswer = true;
+						System.out.println("Computer Won !!!");
+						break;
+
+					} else {
+						ballCombinations.remove(randomResponse);
+					}
+				}
+				if (!foundAnswer) {
+					System.out.println("Computer Lost !!!");
 				}
 
 			}
-			if (attemptsLeft==0 || gotAnswerRight){
-				System.out.println("GAME OVER. Pattern was "+ball+" Play again?");
-				// a loop here to get the values from the user and to keep checking
-				// it until they have attempts left
-				
-			}
-			
-			
 
-		} else if (mode == Mode.Computer) {
-			ComputerGuesser.generateAllCombinations();
-			String answerBall = StartPlaying.getInputFromUser();
-			ComputerGuesser.firstPruneSearchSpace(answerBall);
-			ArrayList<String> ballCombinations = ComputerGuesser.getCombinations();
-			int numberOfAttempts = ComputerGuesser.getNumberOfAttempts();
-			boolean foundAnswer = ComputerGuesser.getFoundAnswer();
-			
-			while (ballCombinations.size()!= 0 || foundAnswer || numberOfAttempts>ComputerGuesser.NUMBER_OF_ATTEMPTS_ALLOWED){
-				String randomResponse = ballCombinations.get(0);
-				String result = TestBall.checkAnswer(answerBall, randomResponse);
-				System.out.println(result+" -->> "+randomResponse+" in "+numberOfAttempts +" tries");
-				numberOfAttempts++;
-				if (Integer.parseInt(result.substring(0, 1))==4){
-					foundAnswer=true;
-					System.out.println("Computer Won !!!");
-					break;
-					
-				}
-				else{
-					ballCombinations.remove(randomResponse);
-				}
-			}
+			playAgain = askUserToPlayAgain();
 
-		}
-		
-		playAgain = askUserToPlayAgain();
-		
-		}
-		while(playAgain);
+		} while (playAgain);
 		scanner.close();
-		
+
 	}
 
 	// if on computer mode, player will choose the colors, get the colors from
@@ -117,7 +121,6 @@ public class StartPlaying {
 		return scanner.nextLine();
 	}
 
-	
 	public static int getDifficultyLevel() {
 		System.out.print("Choose difficulty level (E)asy, (M)edium or (D)ifficult: ");
 		String difficultyLevel = scanner.nextLine();
@@ -135,24 +138,24 @@ public class StartPlaying {
 		}
 		return 0;
 	}
-	
+
 	public static boolean askUserToPlayAgain() {
 		System.out.print("Play again? (Y)es or (N)o: ");
 		String playAgain = scanner.nextLine();
 		while (playAgain != "y" || playAgain != "Y" || playAgain != "n" || playAgain != "N") {
 			if (playAgain.equalsIgnoreCase("y") || playAgain.equalsIgnoreCase("Y")) {
 				return true;
-			} else if (playAgain.equalsIgnoreCase("f") || playAgain.equalsIgnoreCase("F")) {
+			} else if (playAgain.equalsIgnoreCase("n") || playAgain.equalsIgnoreCase("N")) {
+				System.out.println("Thank you for playing.");
 				return false;
 			} else {
-				System.out.print("Play again? (Y)es or (N)o:  ");
+				System.out.print("Incorrect Response. Play again? (Y)es or (N)o:  ");
 				playAgain = changeString();
 			}
 		}
 		return false; // never reached
 	}
 
-	
 	public static Mode getGameMode() {
 		System.out.print("Play as a (P)layer or (C)omputer?: ");
 		String mode = scanner.nextLine();
@@ -179,8 +182,8 @@ public class StartPlaying {
 	}
 
 	// REPLACE WITH LUKE's VALIDATED CODE
-	protected static String getInputFromUser() {
-		System.out.print("Enter your guess  ");
+	protected static String getInputFromUser(String message) {
+		System.out.print(message);
 		String color = scanner.nextLine();
 
 		return color;
