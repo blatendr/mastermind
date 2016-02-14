@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -14,10 +15,13 @@ public class StartPlaying {
 
 	private static boolean gotAnswerRight = false;
 	private static int attemptsMadeSoFar = 0;
+	private static boolean playAgain = false;
 	
 	
 
 	public static void main(String[] args) {
+		
+		do{
 		// step 1. ask the player if he wants to play easy, medium or hard level
 		attemptsLeft = getDifficultyLevel();
 		mode = getGameMode();
@@ -52,10 +56,35 @@ public class StartPlaying {
 			
 
 		} else if (mode == Mode.Computer) {
-			String ballCombination = getInputFromUser();
+			ComputerGuesser.generateAllCombinations();
+			String answerBall = StartPlaying.getInputFromUser();
+			ComputerGuesser.firstPruneSearchSpace(answerBall);
+			ArrayList<String> ballCombinations = ComputerGuesser.getCombinations();
+			int numberOfAttempts = ComputerGuesser.getNumberOfAttempts();
+			boolean foundAnswer = ComputerGuesser.getFoundAnswer();
+			
+			while (ballCombinations.size()!= 0 || foundAnswer || numberOfAttempts>ComputerGuesser.NUMBER_OF_ATTEMPTS_ALLOWED){
+				String randomResponse = ballCombinations.get(0);
+				String result = TestBall.checkAnswer(answerBall, randomResponse);
+				System.out.println(result+" -->> "+randomResponse+" in "+numberOfAttempts +" tries");
+				numberOfAttempts++;
+				if (Integer.parseInt(result.substring(0, 1))==4){
+					foundAnswer=true;
+					System.out.println("Computer Won !!!");
+					break;
+					
+				}
+				else{
+					ballCombinations.remove(randomResponse);
+				}
+			}
 
-			ball = ballCombination;
 		}
+		
+		playAgain = askUserToPlayAgain();
+		
+		}
+		while(playAgain);
 		scanner.close();
 		
 	}
@@ -72,24 +101,23 @@ public class StartPlaying {
 
 		while (color.length() != 4) {
 			System.out.println("Invalid input. Please choose exactly 4 colors.");
-			color = changeString(color);
+			color = changeString();
 		}
 		for (int i = 0; i < 4; i++) {
 			while (color.charAt(i) != 'b' && color.charAt(i) != 'g' && color.charAt(i) != 'r' && color.charAt(i) != 'y'
 					&& color.charAt(i) != 'p' && color.charAt(i) != 'o') {
 				System.out.println("Invalid input. Please choose 4 colors out of: " + Arrays.toString(Ball.colors));
-				color = changeString(color);
+				color = changeString();
 			}
 		}
 		return color;
 	}
 
-	private static String changeString(String s) {
+	private static String changeString() {
 		return scanner.nextLine();
 	}
 
-	// get the difficulty level user desires for
-	// TODO error checking and validation part remains
+	
 	public static int getDifficultyLevel() {
 		System.out.print("Choose difficulty level (E)asy, (M)edium or (D)ifficult: ");
 		String difficultyLevel = scanner.nextLine();
@@ -102,14 +130,29 @@ public class StartPlaying {
 				return NO_OF_MOVES_DIFFICULT;
 			} else {
 				System.out.print("Invalid input. Please choose (E)asy, (M)edium or (D)ifficult: ");
-				difficultyLevel = changeString(difficultyLevel);
+				difficultyLevel = changeString();
 			}
 		}
 		return 0;
 	}
+	
+	public static boolean askUserToPlayAgain() {
+		System.out.print("Play again? (Y)es or (N)o: ");
+		String playAgain = scanner.nextLine();
+		while (playAgain != "y" || playAgain != "Y" || playAgain != "n" || playAgain != "N") {
+			if (playAgain.equalsIgnoreCase("y") || playAgain.equalsIgnoreCase("Y")) {
+				return true;
+			} else if (playAgain.equalsIgnoreCase("f") || playAgain.equalsIgnoreCase("F")) {
+				return false;
+			} else {
+				System.out.print("Play again? (Y)es or (N)o:  ");
+				playAgain = changeString();
+			}
+		}
+		return false; // never reached
+	}
 
-	// get the player mode user desires for
-	// TODO error checking and validation part remains
+	
 	public static Mode getGameMode() {
 		System.out.print("Play as a (P)layer or (C)omputer?: ");
 		String mode = scanner.nextLine();
@@ -120,7 +163,7 @@ public class StartPlaying {
 				return Mode.Computer;
 			} else {
 				System.out.print("Invalid input. Please select (P)layer or (C)omputer: ");
-				mode = changeString(mode);
+				mode = changeString();
 			}
 		}
 		return Mode.Undefined;

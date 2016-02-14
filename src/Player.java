@@ -20,7 +20,4 @@ public class Player {
 	public void increaseNumberOfAttempts() {
 		numberOfAttempts++;
 	}
-	
-	
-
 }

@@ -6,11 +6,11 @@ public class ComputerGuesser {
 	private static String THIRD_GUESS = "3333";
 	private static String FOURTH_GUESS = "4444";
 	private static String FIFTH_GUESS = "5555";
+	public static final int NUMBER_OF_ATTEMPTS_ALLOWED = 15;
 
 	private static ArrayList<String> ballCombinations;
 	private static boolean foundAnswer = false;
 	private static int numberOfAttempts = 0;
-	private static final int NUMBER_OF_ATTEMPTS_ALLOWED = 15;
 	
 
 	public static void generateAllCombinations() {
@@ -27,33 +27,20 @@ public class ComputerGuesser {
 		}
 	}
 
-	public ArrayList<String> getCombinations() {
+	public static ArrayList<String> getCombinations() {
 		return ballCombinations;
 	}
-
-	public static void main(String[] args) {
-		generateAllCombinations();
-		String answerBall = StartPlaying.getInputFromUser();
-		firstPruneSearchSpace(answerBall);
-		while (ballCombinations.size()!= 0 || foundAnswer || numberOfAttempts>NUMBER_OF_ATTEMPTS_ALLOWED){
-			String randomResponse = ballCombinations.get(0);
-			String result = TestBall.checkAnswer(answerBall, randomResponse);
-			System.out.println(result+" -->> "+randomResponse+" in "+numberOfAttempts +" tries");
-			numberOfAttempts++;
-			if (Integer.parseInt(result.substring(0, 1))==4){
-				foundAnswer=true;
-				System.out.println("YOU WIN!!! GAME OVER");
-				break;
-				
-			}
-			else{
-				ballCombinations.remove(randomResponse);
-			}
-		}
-
+	
+	public static int getNumberOfAttempts() {
+		return numberOfAttempts;
+	}
+	
+	public static boolean getFoundAnswer(){
+		return foundAnswer;
 	}
 
-	private static void firstPruneSearchSpace(String answerBall) {
+
+	protected static void firstPruneSearchSpace(String answerBall) {
 		int numberOfPegsFound = 0;
 
 		if (numberOfPegsFound != 4) {
