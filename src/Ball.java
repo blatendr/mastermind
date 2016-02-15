@@ -4,7 +4,8 @@ public class Ball {
 	private String currentBalls = "";
 	private static final String BLACK_DOT = "\u2022";
 	private static final String WHITE_DOT = "\u25E6";
-	
+	private static int MAXGUESSES = 3;
+   private int numGuesses =0;
 			
 
 	// public static String[] colors = {"B", "G", "R", "Y", "P", "O" };
@@ -34,11 +35,21 @@ public class Ball {
 		currentBalls = balls;
 	}
 
-	public String getHint(Ball balls) {
-		// give a random position out
-		return "Hint will be determined and given here";
-	}
-
+	
+	public String getHint()
+   {
+		int rnd = new Random().nextInt(4);
+      numGuesses++;
+      if (numGuesses < MAXGUESSES)
+         {
+         return "hint "+(numGuesses)+" of 2: the ball in position "+(rnd+1)+" is "+currentBalls.charAt(rnd);
+         }
+      else 
+         {
+         return "Sorry, you are out of hints";
+         }
+   }
+	
 	public String giveUp(Ball balls) {
 		return "The solution was " + balls.getPegs();
 	}
