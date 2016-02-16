@@ -185,7 +185,16 @@ public class StartPlaying {
 	protected static String getInputFromUser(String message) {
 		System.out.print(message);
 		String color = scanner.nextLine();
-
+		try{
+			while (color.length() != 4 || Integer.parseInt(color)<1111 || Integer.parseInt(color)>6666 ) {
+				System.out.println("Invalid input. Please choose exactly 4 numbers out of " + Arrays.toString(Ball.colors));
+				color = changeString();
+			}
+		}
+		catch(NumberFormatException e) {
+				System.out.println("Invalid input. Please choose exactly 4 numbers out of " + Arrays.toString(Ball.colors));
+				getInputFromUser(message);
+		}
 		return color;
 	}
 }
