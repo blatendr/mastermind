@@ -3,7 +3,7 @@ import java.util.Random;
 
 /**
  * This class deals with the pegs
- *
+ *  @author Bijay Koirala with the help of Brad
  *
  */
 public class Pegs {

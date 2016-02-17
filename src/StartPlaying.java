@@ -6,7 +6,7 @@ import java.util.Scanner;
  * This is the starting class of The Mastermind game. This class uses other
  * objects throughout the program and uses them
  * 
- * @author Bijay Koirala
+ * @author Bijay Koirala, help from Luke, Brad and Jason
  *
  */
 public class StartPlaying {
@@ -17,9 +17,9 @@ public class StartPlaying {
 	private static Pegs ball_obj;
 	private static Scanner scanner = new Scanner(System.in);
 
-	private static int NO_OF_MOVES_EASY = 15;
-	private static int NO_OF_MOVES_MEDIUM = 10;
-	private static int NO_OF_MOVES_DIFFICULT = 5;
+	private static int NO_OF_MOVES_EASY = 25;
+	private static int NO_OF_MOVES_MEDIUM = 15;
+	private static int NO_OF_MOVES_DIFFICULT = 10;
 
 	private static boolean gotAnswerRight = false;
 	private static int attemptsMadeSoFar = 0;
@@ -63,8 +63,7 @@ public class StartPlaying {
 					if (feedback.equalsIgnoreCase("4b0w")) { // if the answer is all correct, break saying the user won
 						gotAnswerRight = true;
 						System.out.println("You won in " + attemptsMadeSoFar + " attempts.");
-						Player.addToUserStats(attemptsMadeSoFar);
-						Player.averageUserRecord();
+						StatsOnExit.addAndGetAverage(attemptsMadeSoFar);
 						break;
 					}
 
@@ -73,9 +72,8 @@ public class StartPlaying {
 				// if the user had broken out of the loop due to a faulure, say so, ask user if she/he wants to play again
 				if (attemptsLeft == 0 || !gotAnswerRight) {
 					System.out.println("You Lost. Pattern was " + ball + " Play again?");
-					Player.addToUserStats(attemptsMadeSoFar);
-					Player.averageUserRecord();
-				}
+					StatsOnExit.addAndGetAverage(attemptsMadeSoFar);
+					}
 
 			} 
 			
@@ -85,7 +83,7 @@ public class StartPlaying {
 				ComputerGuesser.setNumberOfAttemptsAllowed(attemptsLeft); // show attempts
 				System.out.println("Human, please make a code for the computer to solve");
 				String answerBall = StartPlaying.getInputFromUser(ENTER_CODE_MESSAGE, ball_obj, mode.Computer); // get desired code from user
-				ComputerGuesser.firstPruneSearchSpace(answerBall); // prune search spaces based on the result of 1111
+				ComputerGuesser.firstPruneSearchSpace(answerBall, true); // prune search spaces based on the result of 1111
 				
 
 				ArrayList<String> ballCombinations = ComputerGuesser.getCombinations();
@@ -96,6 +94,7 @@ public class StartPlaying {
 
 				while (ballCombinations.size() != 0 || foundAnswer) {
 					if (attemptsLeft <= 0) {
+						
 						break;
 					}
 					String randomResponse = ballCombinations.get(0);
@@ -107,8 +106,7 @@ public class StartPlaying {
 					if (Integer.parseInt(result.substring(0, 1)) == 4) { // computer wins only if there are 4 blacks
 						foundAnswer = true;
 						System.out.println("Computer Won !!!");
-						Player.addToComputerStats(numberOfAttempts);
-						Player.averageComputerRecord();
+						StatsOnExit.addAndGetAverage(numberOfAttempts);
 						break;
 
 					} else {
@@ -117,9 +115,8 @@ public class StartPlaying {
 					}
 				}
 				if (!foundAnswer) {
+					StatsOnExit.addAndGetAverage(numberOfAttempts);
 					System.out.println("Computer Lost !!!");
-					Player.addToComputerStats(numberOfAttempts);
-					Player.averageComputerRecord();
 					
 				}
 

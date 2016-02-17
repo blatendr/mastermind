@@ -1,5 +1,11 @@
 import java.util.ArrayList;
 
+/**
+ * A class dedicated for user stats
+ * @author Bijay Koirala
+ *
+ */
+
 public class Player {
 	
 	private String name;
@@ -34,22 +40,6 @@ public class Player {
 	public static void addToComputerStats(int times){
 		computerStats.add(times);
 		numberOfComputerGames += 1;
-	}
-	
-	public static void averageUserRecord(){
-		int total = 0;
-		for (Integer i : userStats){
-			total += i;
 		}
-		//System.out.println( (1.0 * total) / (1.0 * numberOfPlayerGames));
-	}
-	
-	public static void averageComputerRecord(){
-		int total = 0;
-		for (Integer i : computerStats){
-			total += i;
-		}
-		//System.out.println( (1.0 * total) / (1.0 * numberOfComputerGames));
-	}
 	
 }

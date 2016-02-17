@@ -1,5 +1,10 @@
 import java.util.ArrayList;
 
+/**
+ * This class handles everything to do with the computer's play.
+ * @author Bijay Koirala
+ *
+ */
 public class ComputerGuesser {
 	private static String FIRST_GUESS = "1111";
 	private static String SECOND_GUESS = "2222";
@@ -68,13 +73,14 @@ public class ComputerGuesser {
 	 * Method to prune through the search space immensely in a few steps - starting with 1111 and reaching 5555 making notes of how many of these are in the combination 
 	 * @param answerBall
 	 */
-	protected static void firstPruneSearchSpace(String answerBall) {
+	protected static void firstPruneSearchSpace(String answerBall, boolean displayResults) {
 		int numberOfPegsFound = 0;
 
 		if (numberOfPegsFound != 4) {
 			String result1 = PegsControler.checkAnswer(answerBall, FIRST_GUESS);
 			numberOfAttempts++;
-			Pegs.printToConsole(FIRST_GUESS, result1, NUMBER_OF_ATTEMPTS_ALLOWED- numberOfAttempts);
+			if (displayResults)
+				Pegs.printToConsole(FIRST_GUESS, result1, NUMBER_OF_ATTEMPTS_ALLOWED- numberOfAttempts);
 			int numberOf1s = Integer.parseInt(result1.substring(0, 1));
 			removeChoicesThatDoNotHaveInAllPlaces(numberOf1s, "1");
 			numberOfPegsFound += numberOf1s;
@@ -83,7 +89,8 @@ public class ComputerGuesser {
 		if (numberOfPegsFound != 4) {
 			String result2 = PegsControler.checkAnswer(answerBall, SECOND_GUESS);
 			numberOfAttempts++;
-			Pegs.printToConsole(SECOND_GUESS, result2, NUMBER_OF_ATTEMPTS_ALLOWED- numberOfAttempts);
+			if (displayResults)
+				Pegs.printToConsole(SECOND_GUESS, result2, NUMBER_OF_ATTEMPTS_ALLOWED- numberOfAttempts);
 			int numberOf2s = Integer.parseInt(result2.substring(0, 1));
 
 			removeChoicesThatDoNotHaveInAllPlaces(numberOf2s, "2");
@@ -93,7 +100,8 @@ public class ComputerGuesser {
 		if (numberOfPegsFound != 4) {
 			String result3 = PegsControler.checkAnswer(answerBall, THIRD_GUESS);
 			numberOfAttempts++;
-			Pegs.printToConsole(THIRD_GUESS, result3, NUMBER_OF_ATTEMPTS_ALLOWED- numberOfAttempts);
+			if (displayResults)
+				Pegs.printToConsole(THIRD_GUESS, result3, NUMBER_OF_ATTEMPTS_ALLOWED- numberOfAttempts);
 			int numberOf3s = Integer.parseInt(result3.substring(0, 1));
 			removeChoicesThatDoNotHaveInAllPlaces(numberOf3s, "3");
 			numberOfPegsFound += numberOf3s;
@@ -102,7 +110,8 @@ public class ComputerGuesser {
 		if (numberOfPegsFound != 4) {
 			String result4 = PegsControler.checkAnswer(answerBall, FOURTH_GUESS);
 			numberOfAttempts++;
-			Pegs.printToConsole(FOURTH_GUESS, result4, NUMBER_OF_ATTEMPTS_ALLOWED- numberOfAttempts);
+			if (displayResults)
+				Pegs.printToConsole(FOURTH_GUESS, result4, NUMBER_OF_ATTEMPTS_ALLOWED- numberOfAttempts);
 			int numberOf4s = Integer.parseInt(result4.substring(0, 1));
 			removeChoicesThatDoNotHaveInAllPlaces(numberOf4s, "4");
 			numberOfPegsFound += numberOf4s;
@@ -111,7 +120,8 @@ public class ComputerGuesser {
 		if (numberOfPegsFound != 4) {
 			String result5 = PegsControler.checkAnswer(answerBall, FIFTH_GUESS);
 			numberOfAttempts++;
-			Pegs.printToConsole(FIFTH_GUESS, result5, NUMBER_OF_ATTEMPTS_ALLOWED- numberOfAttempts);
+			if (displayResults)
+				Pegs.printToConsole(FIFTH_GUESS, result5, NUMBER_OF_ATTEMPTS_ALLOWED- numberOfAttempts);
 			int numberOf5s = Integer.parseInt(result5.substring(0, 1));
 			removeChoicesThatDoNotHaveInAllPlaces(numberOf5s, "5");
 			numberOfPegsFound += numberOf5s;
@@ -171,6 +181,7 @@ public class ComputerGuesser {
 	public static void numberOfChoicesLeft() {
 		System.out.println("\nChoices Left " + ballCombinations.size());
 	}
+
 
 
 
