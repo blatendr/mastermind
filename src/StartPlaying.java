@@ -166,20 +166,31 @@ public class StartPlaying {
 		System.out.print(message);
 		String color = scanner.nextLine();
 		if(mode==Mode.Player){
-			if (color.equals("hint") || color.equals("Hint"))
-	        {
+			if (color.equalsIgnoreCase("hint")){
 	        System.out.println(b.getHint());
 	        return color;
 	        }
-			if(color.equals("quit") || color.equals("Quit")||color.equals("give up") ||color.equals("Give up"))
-            {
+			if(color.equalsIgnoreCase("quit") || color.equalsIgnoreCase("give up")){
             System.out.print("The computers hand was "+b.getPegs());
             System.exit(0);
             }
+			while(validatedFlag==false){
+	 			for (int i = 0; i < 4; i++) {
+	 				if(color.length() != 4 || Character.getNumericValue(color.charAt(i))<1 || Character.getNumericValue(color.charAt(i))>6){
+	 					System.out.println("Invalid input. Please choose exactly 4 numbers out of " + Arrays.toString(Ball.colors));
+	 					validatedFlag=false;
+	 					color=changeString();
+	 					break;
+	 					
+	 				}
+	 				else if(color.length() == 4 || Character.getNumericValue(color.charAt(i))>=1 || Character.getNumericValue(color.charAt(i))<=6){
+	 					validatedFlag=true;
+	 				}
+	 			}
+	 		}
 		}
 		if(mode==Mode.Computer){
-			if(color.equals("quit") || color.equals("Quit")||color.equals("give up") ||color.equals("Give up"))
-	        {
+			if(color.equalsIgnoreCase("quit") || color.equalsIgnoreCase("give up")){
 	        System.exit(0);
 	        }
 	         while(validatedFlag==false){
@@ -192,7 +203,6 @@ public class StartPlaying {
 	 					
 	 				}
 	 				else if(color.length() == 4 || Character.getNumericValue(color.charAt(i))>=1 || Character.getNumericValue(color.charAt(i))<=6){
-	 					System.out.println("validated");
 	 					validatedFlag=true;
 	 				}
 	 			}
