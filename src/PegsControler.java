@@ -2,22 +2,28 @@
 public class PegsControler {
 	
 	public static void main(String[] main){
-		Ball bAnswerBall = new Ball();
-		bAnswerBall.setBalls("aaaa");
+		/* TEST EXAMPLES */
+		Pegs bAnswerBall = new Pegs();
+		bAnswerBall.setBalls("1221");
 		
-		Ball userBall = new Ball();
-		userBall.setBalls("aaaa");
+		Pegs userBall = new Pegs();
+		userBall.setBalls("2145");
 		
 		String response = checkAnswer(bAnswerBall.getPegs(), userBall.getPegs());
 		System.out.println(response);
 		
 		// calling brad's function
-		String responseBrad = Ball.checkAnswer(bAnswerBall, userBall);
-		System.out.println(responseBrad);
+		//String responseBrad = Pegs.checkAnswer(bAnswerBall, userBall);
+		//System.out.println(responseBrad);
 		
 	}
 	
-	
+	/**
+	 * Checks and gives the feed back between two set of peg combinations
+	 * @param bAnswerBall
+	 * @param userBall
+	 * @return
+	 */
 	public static String checkAnswer(String bAnswerBall, String userBall){
 		int numberOfBlacks = 0;
 		int numberOfWhites = 0;
