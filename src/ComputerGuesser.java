@@ -6,7 +6,7 @@ public class ComputerGuesser {
 	private static String THIRD_GUESS = "3333";
 	private static String FOURTH_GUESS = "4444";
 	private static String FIFTH_GUESS = "5555";
-	public static int NUMBER_OF_ATTEMPTS_ALLOWED = 15;
+	public static int NUMBER_OF_ATTEMPTS_ALLOWED = 0;
 
 	private static ArrayList<String> ballCombinations;
 	private static boolean foundAnswer = false;
@@ -17,6 +17,9 @@ public class ComputerGuesser {
 	 */
 	public static void generateAllCombinations() {
 		ballCombinations = new ArrayList<>();
+		numberOfAttempts = 0;
+		foundAnswer = false;
+		ballCombinations.clear();
 		for (String first : Pegs.colors) {
 			for (String second : Pegs.colors) {
 				for (String third : Pegs.colors) {

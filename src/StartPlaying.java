@@ -36,6 +36,7 @@ public class StartPlaying {
 	public static void main(String[] args) {
 
 		do {
+			attemptsMadeSoFar = 0;
 			attemptsLeft = getDifficultyLevel(); // step 1. get the difficulty
 													// level, easy, medium,
 													// difficult
@@ -62,6 +63,8 @@ public class StartPlaying {
 					if (feedback.equalsIgnoreCase("4b0w")) { // if the answer is all correct, break saying the user won
 						gotAnswerRight = true;
 						System.out.println("You won in " + attemptsMadeSoFar + " attempts.");
+						Player.addToUserStats(attemptsMadeSoFar);
+						Player.averageUserRecord();
 						break;
 					}
 
@@ -70,6 +73,8 @@ public class StartPlaying {
 				// if the user had broken out of the loop due to a faulure, say so, ask user if she/he wants to play again
 				if (attemptsLeft == 0 || !gotAnswerRight) {
 					System.out.println("You Lost. Pattern was " + ball + " Play again?");
+					Player.addToUserStats(attemptsMadeSoFar);
+					Player.averageUserRecord();
 				}
 
 			} 
@@ -77,10 +82,11 @@ public class StartPlaying {
 			// if it is computer mode, make player guess a pattern and let the computer try to come up with solution
 			else if (mode == Mode.Computer) {
 				ComputerGuesser.generateAllCombinations(); // first generate all 6^4 combinations
+				ComputerGuesser.setNumberOfAttemptsAllowed(attemptsLeft); // show attempts
 				System.out.println("Human, please make a code for the computer to solve");
 				String answerBall = StartPlaying.getInputFromUser(ENTER_CODE_MESSAGE, ball_obj, mode.Computer); // get desired code from user
 				ComputerGuesser.firstPruneSearchSpace(answerBall); // prune search spaces based on the result of 1111
-				ComputerGuesser.setNumberOfAttemptsAllowed(attemptsLeft); // show attempts
+				
 
 				ArrayList<String> ballCombinations = ComputerGuesser.getCombinations();
 				int numberOfAttempts = ComputerGuesser.getNumberOfAttempts();
@@ -101,14 +107,20 @@ public class StartPlaying {
 					if (Integer.parseInt(result.substring(0, 1)) == 4) { // computer wins only if there are 4 blacks
 						foundAnswer = true;
 						System.out.println("Computer Won !!!");
+						Player.addToComputerStats(numberOfAttempts);
+						Player.averageComputerRecord();
 						break;
 
 					} else {
 						ballCombinations.remove(randomResponse);
+						
 					}
 				}
 				if (!foundAnswer) {
 					System.out.println("Computer Lost !!!");
+					Player.addToComputerStats(numberOfAttempts);
+					Player.averageComputerRecord();
+					
 				}
 
 			}

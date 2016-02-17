@@ -10,7 +10,7 @@ public class Pegs {
 	private String currentBalls = "";
 	private static final String BLACK_DOT = "\u2022";
 	private static final String WHITE_DOT = "\u25E6";
-	private static int MAXGUESSES = 3;
+	private static int MAXGUESSES = 2; // we are just giving one hint right now
 	private int numGuesses = 0;
 	private static ArrayList<Integer> guesses;
 
@@ -20,6 +20,7 @@ public class Pegs {
 	// get different random nuumbers, come up with diffeent combinations
 	public String getRandomPegs() {
 		String tempPattern = "";
+		guesses = new ArrayList<>();
 		for (int i = 0; i < 4; i++) {
 			int rnd = new Random().nextInt(colors.length);
 			guesses.add(i);
