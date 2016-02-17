@@ -17,6 +17,7 @@ public class StartPlaying {
 	private static boolean gotAnswerRight = false;
 	private static int attemptsMadeSoFar = 0;
 	private static boolean playAgain = false;
+	private static boolean validatedFlag=false;
 
 	private static final String ENTER_GUESS_MESSAGE = "Enter your guess: ";
 	private static final String ENTER_CODE_MESSAGE = "Enter your code: ";
@@ -34,7 +35,7 @@ public class StartPlaying {
 				while (attemptsLeft != 0 || gotAnswerRight) {
 
 					attemptsLeft--;
-					String userAnswer = getInputFromUser(ENTER_GUESS_MESSAGE, ball_obj);
+					String userAnswer = getInputFromUser(ENTER_GUESS_MESSAGE, ball_obj, Mode.Player);
 					String feedback = PegsControler.checkAnswer(ball, userAnswer);
 					attemptsMadeSoFar++;
 					Ball.printToConsole(userAnswer, feedback, attemptsLeft);
@@ -53,7 +54,7 @@ public class StartPlaying {
 			} else if (mode == Mode.Computer) {
 				ComputerGuesser.generateAllCombinations();
 				System.out.println("Human, please make a code for the computer to solve");
-				String answerBall = StartPlaying.getInputFromUser(ENTER_CODE_MESSAGE, ball_obj);
+				String answerBall = StartPlaying.getInputFromUser(ENTER_CODE_MESSAGE, ball_obj, mode.Computer);
 				ComputerGuesser.firstPruneSearchSpace(answerBall);
 				ComputerGuesser.setNumberOfAttemptsAllowed(attemptsLeft);
 
@@ -95,29 +96,6 @@ public class StartPlaying {
 
 	}
 
-	// if on computer mode, player will choose the colors, get the colors from
-	// the user
-	// TODO error checking and validation part remains
-	private static String getBallsFromUser() {
-		boolean incorrectColor = false;
-		System.out.print("Please provide combination of 4 colors, valid choices are: " + Arrays.toString(Ball.colors));
-		String color = scanner.nextLine();
-		boolean inputLengthValid = false;
-		boolean validColorsUsed = false;
-
-		while (color.length() != 4) {
-			System.out.println("Invalid input. Please choose exactly 4 colors.");
-			color = changeString();
-		}
-		for (int i = 0; i < 4; i++) {
-			while (color.charAt(i) != 'b' && color.charAt(i) != 'g' && color.charAt(i) != 'r' && color.charAt(i) != 'y'
-					&& color.charAt(i) != 'p' && color.charAt(i) != 'o') {
-				System.out.println("Invalid input. Please choose 4 colors out of: " + Arrays.toString(Ball.colors));
-				color = changeString();
-			}
-		}
-		return color;
-	}
 
 	private static String changeString() {
 		return scanner.nextLine();
@@ -184,29 +162,43 @@ public class StartPlaying {
 	}
 
 	// REPLACE WITH LUKE's VALIDATED CODE
-	protected static String getInputFromUser(String message, Ball b) {
+	protected static String getInputFromUser(String message, Ball b, Mode mode) {
 		System.out.print(message);
 		String color = scanner.nextLine();
-		try{
+		if(mode==Mode.Player){
 			if (color.equals("hint") || color.equals("Hint"))
-            {
-            System.out.println(b.getHint());
-            return color;
-            }
-         if(color.equals("quit") || color.equals("Quit")||color.equals("give up") ||color.equals("Give up"))
+	        {
+	        System.out.println(b.getHint());
+	        return color;
+	        }
+			if(color.equals("quit") || color.equals("Quit")||color.equals("give up") ||color.equals("Give up"))
             {
             System.out.print("The computers hand was "+b.getPegs());
             System.exit(0);
             }
-         while ((color.length() != 4 || Integer.parseInt(color)<1111 || Integer.parseInt(color)>6666 )) {
-				System.out.println("Invalid input. Please choose exactly 4 numbers out of " + Arrays.toString(Ball.colors));
-				color = changeString();
-			}
 		}
-		catch(NumberFormatException e) {
-				System.out.println("Invalid input. Please choose exactly 4 numbers out of " + Arrays.toString(Ball.colors));
-				getInputFromUser(message, b);
+		if(mode==Mode.Computer){
+			if(color.equals("quit") || color.equals("Quit")||color.equals("give up") ||color.equals("Give up"))
+	        {
+	        System.exit(0);
+	        }
+	         while(validatedFlag==false){
+	 			for (int i = 0; i < 4; i++) {
+	 				if(color.length() != 4 || Character.getNumericValue(color.charAt(i))<1 || Character.getNumericValue(color.charAt(i))>6){
+	 					System.out.println("Invalid input. Please choose exactly 4 numbers out of " + Arrays.toString(Ball.colors));
+	 					validatedFlag=false;
+	 					color=changeString();
+	 					break;
+	 					
+	 				}
+	 				else if(color.length() == 4 || Character.getNumericValue(color.charAt(i))>=1 || Character.getNumericValue(color.charAt(i))<=6){
+	 					System.out.println("validated");
+	 					validatedFlag=true;
+	 				}
+	 			}
+	 		}
 		}
-		return color;
+ 		validatedFlag=false;
+ 		return color;
 	}
 }
