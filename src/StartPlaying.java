@@ -7,7 +7,8 @@ public class StartPlaying {
 	private static int attemptsLeft = 0;
 	private static Mode mode;
 	private static String ball;
-	private static Scanner scanner = new Scanner(System.in);
+	private static Ball ball_obj;
+   private static Scanner scanner = new Scanner(System.in);
 
 	private static int NO_OF_MOVES_EASY = 15;
 	private static int NO_OF_MOVES_MEDIUM = 10;
@@ -26,13 +27,14 @@ public class StartPlaying {
 			attemptsLeft = getDifficultyLevel();
 			mode = getGameMode();
 			if (mode == Mode.Player) {
-				ball = new Ball().getRandomPegs();
+				ball_obj = new Ball();
+            ball = ball_obj.getRandomPegs();
 				System.out.println("The computer has thought of a pattern. Lets proceed");
 
 				while (attemptsLeft != 0 || gotAnswerRight) {
 
 					attemptsLeft--;
-					String userAnswer = getInputFromUser(ENTER_GUESS_MESSAGE);
+					String userAnswer = getInputFromUser(ENTER_GUESS_MESSAGE, ball_obj);
 					String feedback = PegsControler.checkAnswer(ball, userAnswer);
 					attemptsMadeSoFar++;
 					Ball.printToConsole(userAnswer, feedback, attemptsLeft);
@@ -51,7 +53,7 @@ public class StartPlaying {
 			} else if (mode == Mode.Computer) {
 				ComputerGuesser.generateAllCombinations();
 				System.out.println("Human, please make a code for the computer to solve");
-				String answerBall = StartPlaying.getInputFromUser(ENTER_CODE_MESSAGE);
+				String answerBall = StartPlaying.getInputFromUser(ENTER_CODE_MESSAGE, ball_obj);
 				ComputerGuesser.firstPruneSearchSpace(answerBall);
 				ComputerGuesser.setNumberOfAttemptsAllowed(attemptsLeft);
 
@@ -182,18 +184,28 @@ public class StartPlaying {
 	}
 
 	// REPLACE WITH LUKE's VALIDATED CODE
-	protected static String getInputFromUser(String message) {
+	protected static String getInputFromUser(String message, Ball b) {
 		System.out.print(message);
 		String color = scanner.nextLine();
 		try{
-			while (color.length() != 4 || Integer.parseInt(color)<1111 || Integer.parseInt(color)>6666 ) {
+			if (color.equals("hint") || color.equals("Hint"))
+            {
+            System.out.println(b.getHint());
+            return color;
+            }
+         if(color.equals("quit") || color.equals("Quit")||color.equals("give up") ||color.equals("Give up"))
+            {
+            System.out.print("The computers hand was "+b.getPegs());
+            System.exit(0);
+            }
+         while ((color.length() != 4 || Integer.parseInt(color)<1111 || Integer.parseInt(color)>6666 )) {
 				System.out.println("Invalid input. Please choose exactly 4 numbers out of " + Arrays.toString(Ball.colors));
 				color = changeString();
 			}
 		}
 		catch(NumberFormatException e) {
 				System.out.println("Invalid input. Please choose exactly 4 numbers out of " + Arrays.toString(Ball.colors));
-				getInputFromUser(message);
+				getInputFromUser(message, b);
 		}
 		return color;
 	}
